@@ -19,17 +19,26 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    # 3. Compile Java files and package them into a JAR
+    # 3. Set up Android SDK
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    # 4. Compile Java files with Android classpath and package them into a JAR
     - name: Compile and Package JAR
       run: |
         mkdir -p bin
-        # Compiles all Java files in your repository into the 'bin' folder
-        find . -name "*.java" | xargs javac -d bin
+        
+        # Find the path to the android.jar platform library (using API 34 as an example)
+        # You can change 'android-34' to your target API level
+        ANDROID_JAR="$ANDROID_HOME/platforms/android-34/android.jar"
+        
+        # Compiles all Java files including the Android classpath
+        find . -name "*.java" | xargs javac -cp "$ANDROID_JAR" -d bin
         
         # Creates the JAR file. Note: Replace 'Main' with your actual main class name if needed
         jar cfe app.jar Main -C bin .
 
-    # 4. Save and expose the JAR file as a downloadable artifact
+    # 5. Save and expose the JAR file as a downloadable artifact
     - name: Upload JAR Artifact
       uses: actions/upload-artifact@v4
       with:
