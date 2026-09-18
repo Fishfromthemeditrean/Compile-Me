@@ -3,12 +3,6 @@ name: Build Java JAR
 # Trigger the workflow on pushes or pull requests to the main branch
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Target environment'
-        required: true
-        default: 'staging'
-        type: string
 
 jobs:
   build:
