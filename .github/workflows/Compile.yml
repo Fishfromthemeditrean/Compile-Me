@@ -11,7 +11,6 @@ jobs:
     # 1. Clone your repository onto the GitHub runner
     - name: Checkout Code
       uses: actions/checkout@v4
-      
 
     # 2. Set up the Java environment (JDK 17)
     - name: Set up JDK 17
@@ -20,11 +19,11 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    # 3. Set up Android SDK
+    # 3. Set up Android SDK (Fixed Package Names)
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       with:
-        packages: 'platform-tools build-tools-34-0-0 platforms-android-34'
+        packages: 'platform-tools build-tools;34.0.0 platforms;android-34'
 
     # 4. Compile Java files with Android classpath and package them into a JAR
     - name: Compile and Package JAR
@@ -32,7 +31,6 @@ jobs:
         mkdir -p bin
         
         # Find the path to the android.jar platform library (using API 34 as an example)
-        # You can change 'android-34' to your target API level
         ANDROID_JAR="$ANDROID_HOME/platforms/android-34/android.jar"
         
         # Compiles all Java files including the Android classpath
