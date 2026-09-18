@@ -11,6 +11,8 @@ jobs:
     # 1. Clone your repository onto the GitHub runner
     - name: Checkout Code
       uses: actions/checkout@v4
+      with:
+      packages: 'platform-tools build-tools-34-0-0 platforms-android-34'
 
     # 2. Set up the Java environment (JDK 17)
     - name: Set up JDK 17
