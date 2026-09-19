@@ -1,9 +1,14 @@
 #include <stdio.h>
-extern "C" {
-class dowrap{
-void dosmth(){
-  printf("i did smth");
-  return;
-}
+
+class dowrap {
+public:
+    void dosmth() {
+        printf("i did smth\n");
+    }
 };
+extern "C" {
+    void dowrap_entry() {
+        dowrap instance;
+        instance.dosmth();
+    }
 }
