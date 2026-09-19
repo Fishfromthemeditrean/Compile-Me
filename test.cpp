@@ -1,4 +1,5 @@
 #include <stdio.h>
-function dosmth(){
+string dosmth(){
   printf("i did smth");
+  return "yay u did smth!!";
 }
