@@ -66,4 +66,32 @@ jobs:
           # Path looks for any .so files inside your workspace recursively
           path: |
             **/*.so
+           
+
+      # 5. Build compiling your C++ code to .so
+      # OPTION A: Using CMake (Recommended for modern Android C++)
+      - name: Build with CMake & NDK
+        run: |
+          mkdir build && cd build
+          cmake .. \
+            -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+            -DANDROID_ABI="arm64-v8a" \
+            -DANDROID_PLATFORM=android-21 \
+            -DCMAKE_BUILD_TYPE=Debug
+          make
+
+      # OPTION B: Alternatively, if you use standard ndk-build (Android.mk / Application.mk)
+      # Uncomment the lines below and comment out Option A if needed:
+      # - name: Build with ndk-build
+      #   run: |
+          # $ANDROID_NDK_HOME/ndk-build APP_BUILD_SCRIPT=Android.mk NDK_APPLICATION_MK=Application.mk
+
+      # 6. Collect and upload the .so libraries as a zip artifact
+      - name: Upload .so Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-so-libraries-${{ github.event.inputs.build_type }}
+          # Path looks for any .so files inside your workspace recursively
+          path: |
+            **/*.so
             
